@@ -1,15 +1,100 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Home = () => {
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
+
+
+// class allows to pass components in as props
+class Home extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Home!</h1>
+      </div>
+    )
+  }
+}
+
+const link = {
+  width: '100px',
+  padding: '12px',
+  margin: '0 6px 6px',
+  background: 'blue',
+  textDecoration: 'none',
+  color: 'white',
+}
+
+const Navbar = () =>
+  <div>
+    <NavLink
+      to="/"
+      /* set exact so it knows to only set activeStyle when route is deeply equal to link */
+      exact
+      /* add styling to Navlink */
+      style={link}
+      /* add prop for activeStyle */
+      activeStyle={{
+        background: 'darkblue'
+      }}
+    >Home</NavLink>
+    <NavLink
+      to="/about"
+      exact
+      style={link}
+      activeStyle={{
+        background: 'darkblue'
+      }}
+    >About</NavLink>
+    <NavLink
+      to="/login"
+      exact
+      style={link}
+      activeStyle={{
+        background: 'darkblue'
+      }}
+    >Login</NavLink>
+  </div>;
+
+const About = () => {
   return (
     <div>
-      <h1>Home!</h1>
+      <h1>This is my about component!</h1>
     </div>
-  );
-};
+  )
+}
 
-ReactDOM.render(
-  <Home />,
-  document.getElementById('root')
-);
+const Login = () => {
+  return (
+    <div>
+      <form>
+        <div>
+          <input type="text" name="username" placeholder="Username" />
+          <label htmlFor="username">Username</label>
+        </div>
+        <div>
+          <input type="password" name="password" placeholder="Password" />
+          <label htmlFor="password">Password</label>
+        </div>
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+  )
+}
+
+  ReactDOM.render((
+    <Router>
+      <React.Fragment>
+        <Navbar />  
+        {/* add this NavBar in to include the links to the various routes */}
+        <Route path="/" component={Home} />  
+        {/* when passing in components as props, must use component instead of render */}
+        {/* the Route component API has a prop called component */}
+        <Route exact path="/about" component={About} />
+        <Route exact path="/login" component={Login} />
+      </React.Fragment>
+    </Router>),
+    document.getElementById('root')
+)
+
+
+
